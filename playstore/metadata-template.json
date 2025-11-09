@@ -1,0 +1,18 @@
+{
+  "packageName": "com.shorthandsimplified.app",
+  "title": "Shorthand Simplified",
+  "shortDescription": "Learn Pitman shorthand — strokes, shortforms & practice",
+  "fullDescription": "Master Pitman shorthand with visual stroke guides, shortforms, phrases, and practice exercises. Free to start with optional premium subscription for full content.",
+  "contactEmail": "tmaenge@gmail.com",
+  "website": "",
+  "privacyPolicyUrl": "",
+  "defaultLanguage": "en-US",
+  "screenshots": {
+    "phone": [
+      "screenshots/phone-1.png",
+      "screenshots/phone-2.png"
+    ],
+    "tablet": [],
+    "featureGraphic": "screenshots/feature-1024x500.png"
+  }
+}

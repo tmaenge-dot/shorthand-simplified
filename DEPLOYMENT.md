@@ -1,3 +1,56 @@
+# Deployment guide — Shorthand Simplified
+
+This repository has a production Android App Bundle (.aab) already built by EAS. Use the instructions below to deploy to Google Play (when you have a Play Developer account) or distribute the build to testers right now.
+
+Artifact (already built):
+
+- Expo EAS artifact: https://expo.dev/artifacts/eas/jwHZvfSu3j9d9Y6qNcEqz3.aab
+
+Quick options
+- Automated submit (recommended when you have Play Developer access): add `google-service-account.json` to project root (or update `eas.json`) and run `eas submit --platform android --profile production`.
+- Manual Play Console upload: download the .aab above and upload in Play Console → Release → Internal testing / Production.
+- Share with testers right now: download the .aab and distribute (sideload or use Firebase App Distribution / TestFairy / similar).
+
+Manual Play Console upload (high-level)
+1. Sign in to Play Console (https://play.google.com/console). Register as a developer if needed (one-time $25).
+2. Create a new app: All apps → Create app. Fill app name and default language.
+3. Setup internal testing (recommended first): Testing → Internal testing → Create new release → Upload the .aab.
+4. Add release notes, save, review, and roll out to the internal testing track.
+5. Complete store listing: Store presence → Main store listing — add short & full descriptions, app icon, feature graphic (1024×500), screenshots (phone/tablet), contact email and privacy policy URL.
+6. Set pricing & distribution and content rating.
+
+How to download the .aab locally
+You can use the script in `scripts/download_aab.sh` or curl manually:
+
+```bash
+# download artifact to current directory
+curl -L -o shorthand-simplified.aab https://expo.dev/artifacts/eas/jwHZvfSu3j9d9Y6qNcEqz3.aab
+```
+
+How to install the .aab on a device (sideload)
+Android uses app bundles — you must use bundletool to install the .aab on a device or generate apks:
+
+1. Install bundletool: https://github.com/google/bundletool
+2. Generate APKS from the AAB:
+
+```bash
+# generate apks for a connected device
+java -jar bundletool.jar build-apks --bundle=shorthand-simplified.aab --output=shorthand.apks --connected-device
+# install generated apks
+java -jar bundletool.jar install-apks --apks=shorthand.apks
+```
+
+Alternatively, upload the .aab to Firebase App Distribution or other test distribution service and invite testers.
+
+If you want me to perform the Play Console submit for you later:
+- Register a Play Developer account and create a service account (Play Console → Settings → API access) and download the JSON key (`google-service-account.json`).
+- Upload that JSON to the project root (do NOT paste it in chat). When you confirm it's uploaded, I'll run `eas submit --platform android --profile production` and finish the submission.
+
+Notes & security
+- The artifact above was built using Expo-managed credentials (Expo generated the keystore). You can manage your own keystore later if desired.
+- Keep `google-service-account.json` private. Prefer adding it to CI secrets rather than committing to git in the long term.
+
+If you'd like, I can also prepare the Play Store listing assets and fill the metadata so the only missing step is the service-account JSON and a final submit. Say the word and I will add the metadata files to `playstore/`.
 # Shorthand Simplified - Play Store Deployment Guide
 
 ## Overview
