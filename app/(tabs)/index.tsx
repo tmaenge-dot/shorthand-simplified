@@ -4,22 +4,14 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const router = useRouter();
 
   const handleNavigation = (route: string) => {
-    console.log('Navigation button pressed:', route);
-    Alert.alert('Button Pressed', `Navigating to: ${route}`);
-    try {
-      router.push(route as any);
-      console.log('Navigation successful to:', route);
-    } catch (error) {
-      console.error('Navigation failed:', error);
-      Alert.alert('Navigation Error', String(error));
-    }
+    router.push(route as any);
   };
 
   return (
