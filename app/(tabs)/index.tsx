@@ -4,11 +4,23 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const router = useRouter();
+
+  const handleNavigation = (route: string) => {
+    console.log('Navigation button pressed:', route);
+    Alert.alert('Button Pressed', `Navigating to: ${route}`);
+    try {
+      router.push(route as any);
+      console.log('Navigation successful to:', route);
+    } catch (error) {
+      console.error('Navigation failed:', error);
+      Alert.alert('Navigation Error', String(error));
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -48,7 +60,7 @@ export default function HomeScreen() {
           </ThemedText>
           
           <TouchableOpacity 
-            onPress={() => router.push('/(tabs)/recognize')}
+            onPress={() => handleNavigation('/(tabs)/recognize')}
             activeOpacity={0.8}
           >
             <LinearGradient
@@ -56,12 +68,13 @@ export default function HomeScreen() {
               style={styles.ctaCard}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
+              pointerEvents="none"
             >
-              <View style={styles.ctaContent}>
-                <View style={styles.ctaIconWrapper}>
+              <View style={styles.ctaContent} pointerEvents="none">
+                <View style={styles.ctaIconWrapper} pointerEvents="none">
                   <IconSymbol name="camera.fill" size={40} color="#fff" />
                 </View>
-                <View style={styles.ctaText}>
+                <View style={styles.ctaText} pointerEvents="none">
                   <ThemedText style={styles.ctaTitle}>
                     Try AI Recognition
                   </ThemedText>
@@ -91,138 +104,168 @@ export default function HomeScreen() {
             🎯 AI-Enhanced Learning Path
           </ThemedText>
           
-          <TouchableOpacity onPress={() => router.push('/(tabs)/recognize')}>
+          <TouchableOpacity 
+            onPress={() => handleNavigation('/(tabs)/recognize')}
+            activeOpacity={0.7}
+          >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(102, 126, 234, 0.2)', 'rgba(118, 75, 162, 0.2)'] : ['#667eea', '#764ba2']}
               style={[styles.featureCard, styles.aiFeatureCard]}
+              pointerEvents="none"
             >
-              <ThemedView style={styles.featureItem}>
+              <View style={styles.featureItem} pointerEvents="none">
                 <LinearGradient
                   colors={['#4facfe', '#00f2fe']}
                   style={[styles.featureIcon, styles.aiFeatureIcon]}
+                  pointerEvents="none"
                 >
                   <IconSymbol name="sparkles" size={28} color="#fff" />
                 </LinearGradient>
-                <ThemedView style={styles.featureText}>
+                <View style={styles.featureText} pointerEvents="none">
                   <ThemedText type="defaultSemiBold" style={styles.aiFeatureTitle}>
                     AI Recognition (Core)
                   </ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Practice and get instant AI feedback on your strokes
                   </ThemedText>
-                </ThemedView>
+                </View>
                 <IconSymbol name="chevron.right" size={20} color="#fff" />
-              </ThemedView>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
           
-          <TouchableOpacity onPress={() => router.push('/(tabs)/strokes')}>
+          <TouchableOpacity 
+            onPress={() => handleNavigation('/(tabs)/strokes')}
+            activeOpacity={0.7}
+          >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
+              pointerEvents="none"
             >
-              <ThemedView style={styles.featureItem}>
+              <View style={styles.featureItem} pointerEvents="none">
                 <LinearGradient
                   colors={['#667eea', '#764ba2']}
                   style={styles.featureIcon}
+                  pointerEvents="none"
                 >
                   <IconSymbol name="pencil.line" size={24} color="#fff" />
                 </LinearGradient>
-                <ThemedView style={styles.featureText}>
+                <View style={styles.featureText} pointerEvents="none">
                   <ThemedText type="defaultSemiBold">Strokes</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     24 consonants, 12 vowels from reference book
                   </ThemedText>
-                </ThemedView>
-              </ThemedView>
+                </View>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/(tabs)/shortforms')}>
+          <TouchableOpacity 
+            onPress={() => handleNavigation('/(tabs)/shortforms')}
+            activeOpacity={0.7}
+          >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
+              pointerEvents="none"
             >
-              <ThemedView style={styles.featureItem}>
+              <View style={styles.featureItem} pointerEvents="none">
                 <LinearGradient
                   colors={['#f093fb', '#f5576c']}
                   style={styles.featureIcon}
+                  pointerEvents="none"
                 >
                   <IconSymbol name="text.badge.checkmark" size={24} color="#fff" />
                 </LinearGradient>
-                <ThemedView style={styles.featureText}>
+                <View style={styles.featureText} pointerEvents="none">
                   <ThemedText type="defaultSemiBold">Shortforms</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Master abbreviated forms of common words
                   </ThemedText>
-                </ThemedView>
-              </ThemedView>
+                </View>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/(tabs)/phrases')}>
+          <TouchableOpacity 
+            onPress={() => handleNavigation('/(tabs)/phrases')}
+            activeOpacity={0.7}
+          >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
+              pointerEvents="none"
             >
-              <ThemedView style={styles.featureItem}>
+              <View style={styles.featureItem} pointerEvents="none">
                 <LinearGradient
                   colors={['#4facfe', '#00f2fe']}
                   style={styles.featureIcon}
+                  pointerEvents="none"
                 >
                   <IconSymbol name="text.quote" size={24} color="#fff" />
                 </LinearGradient>
-                <ThemedView style={styles.featureText}>
+                <View style={styles.featureText} pointerEvents="none">
                   <ThemedText type="defaultSemiBold">Phrases</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Practice frequently used phrase combinations
                   </ThemedText>
-                </ThemedView>
-              </ThemedView>
+                </View>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/(tabs)/outlines')}>
+          <TouchableOpacity 
+            onPress={() => handleNavigation('/(tabs)/outlines')}
+            activeOpacity={0.7}
+          >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
+              pointerEvents="none"
             >
-              <ThemedView style={styles.featureItem}>
+              <View style={styles.featureItem} pointerEvents="none">
                 <LinearGradient
                   colors={['#fa709a', '#fee140']}
                   style={styles.featureIcon}
+                  pointerEvents="none"
                 >
                   <IconSymbol name="book.fill" size={24} color="#fff" />
                 </LinearGradient>
-                <ThemedView style={styles.featureText}>
+                <View style={styles.featureText} pointerEvents="none">
                   <ThemedText type="defaultSemiBold">Outlines</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Study complete word representations
                   </ThemedText>
-                </ThemedView>
-              </ThemedView>
+                </View>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/(tabs)/qa')}>
+          <TouchableOpacity 
+            onPress={() => handleNavigation('/(tabs)/qa')}
+            activeOpacity={0.7}
+          >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
+              pointerEvents="none"
             >
-              <ThemedView style={styles.featureItem}>
+              <View style={styles.featureItem} pointerEvents="none">
                 <LinearGradient
                   colors={['#30cfd0', '#330867']}
                   style={styles.featureIcon}
+                  pointerEvents="none"
                 >
                   <IconSymbol name="questionmark.circle.fill" size={24} color="#fff" />
                 </LinearGradient>
-                <ThemedView style={styles.featureText}>
+                <View style={styles.featureText} pointerEvents="none">
                   <ThemedText type="defaultSemiBold">Q&A Guidelines</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Get answers to common questions and tips
                   </ThemedText>
-                </ThemedView>
-              </ThemedView>
+                </View>
+              </View>
             </LinearGradient>
           </TouchableOpacity>
         </ThemedView>
@@ -424,7 +467,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
-    backgroundColor: 'transparent',
   },
   featureIcon: {
     width: 56,
@@ -440,7 +482,6 @@ const styles = StyleSheet.create({
   },
   featureText: {
     flex: 1,
-    backgroundColor: 'transparent',
   },
   featureDescription: {
     fontSize: 13,

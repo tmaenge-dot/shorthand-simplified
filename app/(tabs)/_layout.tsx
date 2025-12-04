@@ -114,7 +114,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="outlines"
         options={{
-          href: null, // Hide from tabs
+          title: 'Outlines',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} />,
         }}
       />
     </Tabs>
