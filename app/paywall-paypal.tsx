@@ -14,7 +14,7 @@ export default function PaywallScreen() {
     if (Platform.OS === 'web' && typeof document !== 'undefined') {
       const script = document.createElement('script');
       // Enable card payments + PayPal + Venmo
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID || 'AUbVu5Ik8BzHXAQbJBgP_...'}&vault=true&intent=subscription&disable-funding=paylater&enable-funding=card,venmo`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=AYVkgS2QatdJWVAlCbu3u031NIjkvFvdJ0x86F0e6IMgdC3w4-SphYJalN2TvlPHm-hIKAafSE-busGR&vault=true&intent=subscription&disable-funding=paylater&enable-funding=card,venmo`;
       script.async = true;
       document.body.appendChild(script);
     }

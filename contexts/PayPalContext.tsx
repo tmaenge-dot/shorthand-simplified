@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Platform } from 'react-native';
 
 // PayPal Configuration
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'AUbVu5Ik8BzHXAQbJBgP_...'; // Your Shorthand Tutor App Client ID
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'AYVkgS2QatdJWVAlCbu3u031NIjkvFvdJ0x86F0e6IMgdC3w4-SphYJalN2TvlPHm-hIKAafSE-busGR';
 
 interface PayPalContextType {
   isPremium: boolean;
