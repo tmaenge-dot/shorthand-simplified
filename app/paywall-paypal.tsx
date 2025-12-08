@@ -10,10 +10,11 @@ export default function PaywallScreen() {
   const [purchasing, setPurchasing] = useState(false);
 
   useEffect(() => {
-    // Load PayPal SDK on web
+    // Load PayPal SDK on web with card support
     if (Platform.OS === 'web' && typeof document !== 'undefined') {
       const script = document.createElement('script');
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID || 'AUbVu5Ik8BzHXAQbJBgP_...'}&vault=true&intent=subscription`;
+      // Enable card payments + PayPal + Venmo
+      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID || 'AUbVu5Ik8BzHXAQbJBgP_...'}&vault=true&intent=subscription&disable-funding=paylater&enable-funding=card,venmo`;
       script.async = true;
       document.body.appendChild(script);
     }
@@ -154,9 +155,34 @@ export default function PaywallScreen() {
         ))}
       </View>
 
+      {/* Payment Methods Notice */}
+      <View style={styles.paymentMethodsNotice}>
+        <Text style={styles.paymentMethodsTitle}>💳 Multiple Payment Options:</Text>
+        <View style={styles.paymentMethodsList}>
+          <View style={styles.paymentMethodItem}>
+            <Ionicons name="card" size={20} color="#2196F3" />
+            <Text style={styles.paymentMethodText}>Credit/Debit Cards</Text>
+          </View>
+          <View style={styles.paymentMethodItem}>
+            <Ionicons name="logo-paypal" size={20} color="#0070BA" />
+            <Text style={styles.paymentMethodText}>PayPal Account</Text>
+          </View>
+          <View style={styles.paymentMethodItem}>
+            <Ionicons name="wallet" size={20} color="#00457C" />
+            <Text style={styles.paymentMethodText}>Venmo</Text>
+          </View>
+        </View>
+        <Text style={styles.paymentMethodsSubtext}>
+          All payments go directly to the developer's PayPal account
+        </Text>
+      </View>
+
       {/* PayPal Button Container */}
       {Platform.OS === 'web' && (
         <View style={styles.paypalContainer}>
+          <Text style={styles.paypalInstructions}>
+            Choose your payment method below:
+          </Text>
           <div id="paypal-button-container" style={{ width: '100%', maxWidth: 400, margin: '0 auto' }}></div>
         </View>
       )}
@@ -171,7 +197,7 @@ export default function PaywallScreen() {
           <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.purchaseButtonText}>
-            {Platform.OS === 'web' ? 'Pay with PayPal' : 'Continue on Web'}
+            {Platform.OS === 'web' ? 'Choose Payment Method Above' : 'Continue on Web'}
           </Text>
         )}
       </Pressable>
@@ -179,13 +205,14 @@ export default function PaywallScreen() {
       {/* Secure Payment Notice */}
       <View style={styles.secureNotice}>
         <Ionicons name="shield-checkmark" size={16} color="#666" />
-        <Text style={styles.secureText}>Secure payment powered by PayPal</Text>
+        <Text style={styles.secureText}>Secure checkout - No PayPal account required</Text>
       </View>
 
       {/* Terms */}
       <Text style={styles.terms}>
-        Payment will be charged via PayPal. Subscriptions automatically renew unless cancelled 24 hours before the period ends.
-        Manage subscriptions in your PayPal account.
+        All payments are securely processed through PayPal. You can pay with credit/debit cards or your PayPal account.
+        Funds go directly to the developer's PayPal account. Subscriptions automatically renew unless cancelled.
+        Manage subscriptions anytime in your PayPal account or payment method.
       </Text>
     </ScrollView>
   );
@@ -331,9 +358,50 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
   },
+  paymentMethodsNotice: {
+    backgroundColor: '#fff',
+    margin: 20,
+    marginTop: 0,
+    padding: 20,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  paymentMethodsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 12,
+  },
+  paymentMethodsList: {
+    gap: 10,
+    marginBottom: 12,
+  },
+  paymentMethodItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  paymentMethodText: {
+    fontSize: 14,
+    color: '#555',
+  },
+  paymentMethodsSubtext: {
+    fontSize: 12,
+    color: '#999',
+    fontStyle: 'italic',
+    marginTop: 8,
+  },
   paypalContainer: {
     padding: 20,
     paddingTop: 10,
+  },
+  paypalInstructions: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 12,
+    fontWeight: '500',
   },
   purchaseButton: {
     backgroundColor: '#0070BA',

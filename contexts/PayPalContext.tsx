@@ -104,6 +104,13 @@ export const PayPalProvider: React.FC<PayPalProviderProps> = ({ children }) => {
 
       // @ts-ignore
       paypal.Buttons({
+        style: {
+          layout: 'vertical',
+          color: 'gold',
+          shape: 'rect',
+          label: 'paypal'
+        },
+        fundingSource: undefined, // Allows PayPal AND card payments
         createOrder: (data: any, actions: any) => {
           if (planType === 'lifetime') {
             // One-time payment
@@ -115,6 +122,9 @@ export const PayPalProvider: React.FC<PayPalProviderProps> = ({ children }) => {
                   value: plan.price,
                 },
               }],
+              application_context: {
+                shipping_preference: 'NO_SHIPPING' // Digital goods, no shipping
+              }
             });
           } else {
             // Subscription
