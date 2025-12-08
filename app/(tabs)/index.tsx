@@ -52,7 +52,7 @@ export default function HomeScreen() {
           </ThemedText>
           
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/recognize')}
+            onPress={() => handleNavigation('/recognize')}
             
             style={{ cursor: "pointer" }}
           >
@@ -97,7 +97,7 @@ export default function HomeScreen() {
           </ThemedText>
           
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/recognize')}
+            onPress={() => handleNavigation('/recognize')}
             
             style={{ cursor: "pointer" }}
           >
@@ -128,7 +128,7 @@ export default function HomeScreen() {
           </Pressable>
           
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/strokes')}
+            onPress={() => handleNavigation('/strokes')}
             
             style={{ cursor: "pointer" }}
           >
@@ -156,7 +156,7 @@ export default function HomeScreen() {
           </Pressable>
 
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/shortforms')}
+            onPress={() => handleNavigation('/shortforms')}
             
             style={{ cursor: "pointer" }}
           >
@@ -184,7 +184,7 @@ export default function HomeScreen() {
           </Pressable>
 
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/phrases')}
+            onPress={() => handleNavigation('/phrases')}
             
             style={{ cursor: "pointer" }}
           >
@@ -212,7 +212,7 @@ export default function HomeScreen() {
           </Pressable>
 
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/outlines')}
+            onPress={() => handleNavigation('/outlines')}
             
             style={{ cursor: "pointer" }}
           >
@@ -240,7 +240,7 @@ export default function HomeScreen() {
           </Pressable>
 
           <Pressable 
-            onPress={() => handleNavigation('/(tabs)/qa')}
+            onPress={() => handleNavigation('/qa')}
             
             style={{ cursor: "pointer" }}
           >
