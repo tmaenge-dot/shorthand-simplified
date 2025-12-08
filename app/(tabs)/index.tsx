@@ -61,13 +61,12 @@ export default function HomeScreen() {
               style={styles.ctaCard}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              pointerEvents="none"
             >
-              <View style={styles.ctaContent} pointerEvents="none">
-                <View style={styles.ctaIconWrapper} pointerEvents="none">
+              <View style={styles.ctaContent}>
+                <View style={styles.ctaIconWrapper}>
                   <IconSymbol name="camera.fill" size={40} color="#fff" />
                 </View>
-                <View style={styles.ctaText} pointerEvents="none">
+                <View style={styles.ctaText}>
                   <ThemedText style={styles.ctaTitle}>
                     Try AI Recognition
                   </ThemedText>
@@ -105,17 +104,17 @@ export default function HomeScreen() {
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(102, 126, 234, 0.2)', 'rgba(118, 75, 162, 0.2)'] : ['#667eea', '#764ba2']}
               style={[styles.featureCard, styles.aiFeatureCard]}
-              pointerEvents="none"
+             
             >
-              <View style={styles.featureItem} pointerEvents="none">
+              <View style={styles.featureItem}>
                 <LinearGradient
                   colors={['#4facfe', '#00f2fe']}
                   style={[styles.featureIcon, styles.aiFeatureIcon]}
-                  pointerEvents="none"
+                 
                 >
                   <IconSymbol name="sparkles" size={28} color="#fff" />
                 </LinearGradient>
-                <View style={styles.featureText} pointerEvents="none">
+                <View style={styles.featureText}>
                   <ThemedText type="defaultSemiBold" style={styles.aiFeatureTitle}>
                     AI Recognition (Core)
                   </ThemedText>
@@ -136,17 +135,17 @@ export default function HomeScreen() {
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
-              pointerEvents="none"
+             
             >
-              <View style={styles.featureItem} pointerEvents="none">
+              <View style={styles.featureItem}>
                 <LinearGradient
                   colors={['#667eea', '#764ba2']}
                   style={styles.featureIcon}
-                  pointerEvents="none"
+                 
                 >
                   <IconSymbol name="pencil.line" size={24} color="#fff" />
                 </LinearGradient>
-                <View style={styles.featureText} pointerEvents="none">
+                <View style={styles.featureText}>
                   <ThemedText type="defaultSemiBold">Strokes</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     24 consonants, 12 vowels from reference book
@@ -164,17 +163,17 @@ export default function HomeScreen() {
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
-              pointerEvents="none"
+             
             >
-              <View style={styles.featureItem} pointerEvents="none">
+              <View style={styles.featureItem}>
                 <LinearGradient
                   colors={['#f093fb', '#f5576c']}
                   style={styles.featureIcon}
-                  pointerEvents="none"
+                 
                 >
                   <IconSymbol name="text.badge.checkmark" size={24} color="#fff" />
                 </LinearGradient>
-                <View style={styles.featureText} pointerEvents="none">
+                <View style={styles.featureText}>
                   <ThemedText type="defaultSemiBold">Shortforms</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Master abbreviated forms of common words
@@ -192,17 +191,17 @@ export default function HomeScreen() {
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
-              pointerEvents="none"
+             
             >
-              <View style={styles.featureItem} pointerEvents="none">
+              <View style={styles.featureItem}>
                 <LinearGradient
                   colors={['#4facfe', '#00f2fe']}
                   style={styles.featureIcon}
-                  pointerEvents="none"
+                 
                 >
                   <IconSymbol name="text.quote" size={24} color="#fff" />
                 </LinearGradient>
-                <View style={styles.featureText} pointerEvents="none">
+                <View style={styles.featureText}>
                   <ThemedText type="defaultSemiBold">Phrases</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Practice frequently used phrase combinations
@@ -220,17 +219,17 @@ export default function HomeScreen() {
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
-              pointerEvents="none"
+             
             >
-              <View style={styles.featureItem} pointerEvents="none">
+              <View style={styles.featureItem}>
                 <LinearGradient
                   colors={['#fa709a', '#fee140']}
                   style={styles.featureIcon}
-                  pointerEvents="none"
+                 
                 >
                   <IconSymbol name="book.fill" size={24} color="#fff" />
                 </LinearGradient>
-                <View style={styles.featureText} pointerEvents="none">
+                <View style={styles.featureText}>
                   <ThemedText type="defaultSemiBold">Outlines</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Study complete word representations
@@ -248,17 +247,17 @@ export default function HomeScreen() {
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
               style={styles.featureCard}
-              pointerEvents="none"
+             
             >
-              <View style={styles.featureItem} pointerEvents="none">
+              <View style={styles.featureItem}>
                 <LinearGradient
                   colors={['#30cfd0', '#330867']}
                   style={styles.featureIcon}
-                  pointerEvents="none"
+                 
                 >
                   <IconSymbol name="questionmark.circle.fill" size={24} color="#fff" />
                 </LinearGradient>
-                <View style={styles.featureText} pointerEvents="none">
+                <View style={styles.featureText}>
                   <ThemedText type="defaultSemiBold">Q&A Guidelines</ThemedText>
                   <ThemedText style={styles.featureDescription}>
                     Get answers to common questions and tips
