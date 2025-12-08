@@ -54,6 +54,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/recognize')}
             activeOpacity={0.8}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={['#667eea', '#764ba2']}
@@ -99,6 +100,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/recognize')}
             activeOpacity={0.7}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(102, 126, 234, 0.2)', 'rgba(118, 75, 162, 0.2)'] : ['#667eea', '#764ba2']}
@@ -129,6 +131,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/strokes')}
             activeOpacity={0.7}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -156,6 +159,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/shortforms')}
             activeOpacity={0.7}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -183,6 +187,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/phrases')}
             activeOpacity={0.7}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -210,6 +215,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/outlines')}
             activeOpacity={0.7}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -237,6 +243,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             onPress={() => handleNavigation('/(tabs)/qa')}
             activeOpacity={0.7}
+            style={{ cursor: 'pointer' }}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
