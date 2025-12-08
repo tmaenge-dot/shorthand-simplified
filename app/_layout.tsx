@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { PremiumProvider } from '@/contexts/PremiumContext';
+import { PayPalProvider } from '@/contexts/PayPalContext';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -14,15 +14,15 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <PremiumProvider>
+    <PayPalProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-          <Stack.Screen name="paywall" options={{ presentation: 'modal', title: 'Upgrade to Premium' }} />
+          <Stack.Screen name="paywall-paypal" options={{ presentation: 'modal', title: 'Upgrade to Premium' }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
-    </PremiumProvider>
+    </PayPalProvider>
   );
 }

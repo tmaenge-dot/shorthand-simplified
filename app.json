@@ -65,8 +65,7 @@
       "eas": {
         "projectId": "e66fce43-9f41-4bf5-9e37-d8231236a950"
       },
-      "REVENUECAT_API_KEY_ANDROID": "YOUR_ANDROID_API_KEY_HERE",
-      "REVENUECAT_API_KEY_IOS": "YOUR_IOS_API_KEY_HERE"
+      "PAYPAL_CLIENT_ID": "AUbVu5Ik8BzHXAQbJBgP_..."
     }
   }
 }

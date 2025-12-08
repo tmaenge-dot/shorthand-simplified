@@ -30,13 +30,13 @@ export const PremiumLock: React.FC<PremiumLockProps> = ({ feature }) => {
 
         <TouchableOpacity
           style={styles.upgradeButton}
-          onPress={() => router.push('/paywall')}
+          onPress={() => router.push('/paywall-paypal')}
         >
           <IconSymbol name="crown.fill" size={24} color="#FFD700" />
           <Text style={styles.upgradeButtonText}>Upgrade to Premium</Text>
         </TouchableOpacity>
 
-        <Text style={styles.priceHint}>Starting at $2.50/month</Text>
+        <Text style={styles.priceHint}>Starting at $4.99/month</Text>
       </LinearGradient>
     </View>
   );
