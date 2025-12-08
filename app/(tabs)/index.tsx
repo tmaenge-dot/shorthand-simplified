@@ -51,10 +51,10 @@ export default function HomeScreen() {
             feedback and guide your learning journey.
           </ThemedText>
           
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/recognize')}
-            activeOpacity={0.8}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={['#667eea', '#764ba2']}
@@ -77,7 +77,7 @@ export default function HomeScreen() {
                 <IconSymbol name="chevron.right" size={24} color="#fff" />
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
         </ThemedView>
 
         {/* Quick Stats */}
@@ -96,10 +96,10 @@ export default function HomeScreen() {
             🎯 AI-Enhanced Learning Path
           </ThemedText>
           
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/recognize')}
-            activeOpacity={0.7}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(102, 126, 234, 0.2)', 'rgba(118, 75, 162, 0.2)'] : ['#667eea', '#764ba2']}
@@ -125,12 +125,12 @@ export default function HomeScreen() {
                 <IconSymbol name="chevron.right" size={20} color="#fff" />
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
           
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/strokes')}
-            activeOpacity={0.7}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -153,12 +153,12 @@ export default function HomeScreen() {
                 </View>
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/shortforms')}
-            activeOpacity={0.7}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -181,12 +181,12 @@ export default function HomeScreen() {
                 </View>
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/phrases')}
-            activeOpacity={0.7}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -209,12 +209,12 @@ export default function HomeScreen() {
                 </View>
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/outlines')}
-            activeOpacity={0.7}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -237,12 +237,12 @@ export default function HomeScreen() {
                 </View>
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity 
+          <Pressable 
             onPress={() => handleNavigation('/(tabs)/qa')}
-            activeOpacity={0.7}
-            style={{ cursor: 'pointer' }}
+            
+            style={({ pressed }) => [{ cursor: "pointer", opacity: pressed ? 0.7 : 1 }]}
           >
             <LinearGradient
               colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
@@ -265,7 +265,7 @@ export default function HomeScreen() {
                 </View>
               </View>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
         </ThemedView>
 
         <ThemedView style={styles.section}>
