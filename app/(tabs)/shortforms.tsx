@@ -5,13 +5,13 @@ import { PremiumLock } from '@/components/PremiumLock';
 import { Colors } from '@/constants/theme';
 import { shortformsData } from '@/data/shortforms';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { usePremium } from '@/contexts/PremiumContext';
+import { usePayPal } from '@/contexts/PayPalContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ShortformsScreen() {
-  const { isPremium } = usePremium();
+  const { isPremium } = usePayPal();
   const colorScheme = useColorScheme();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'common' | 'pronouns' | 'verbs' | 'business' | 'legal' | 'medical' | 'special'>('all');
   const [searchQuery, setSearchQuery] = useState('');

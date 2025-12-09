@@ -5,9 +5,31 @@ import { Ionicons } from '@expo/vector-icons';
 import { usePayPal } from '../contexts/PayPalContext';
 
 export default function PaywallScreen() {
-  const { isPremium, isLoading, purchasePlan } = usePayPal();
+  const { isPremium, isLoading } = usePayPal();
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'annual' | 'lifetime'>('annual');
-  const [purchasing, setPurchasing] = useState(false);
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
+
+  // Plan details matching PayPalContext
+  const planDetails = {
+    monthly: {
+      planId: 'P-9F642900T4091545LNE4EEYQ',
+      name: 'Monthly Premium Access',
+      price: '4.99',
+      currency: 'USD'
+    },
+    annual: {
+      planId: 'P-2TW28080XL942540NNE4EE6I',
+      name: 'Annual Premium Access',
+      price: '29.99',
+      currency: 'USD'
+    },
+    lifetime: {
+      planId: 'PROD-06Y7794429516770G',
+      name: 'Lifetime Premium Access',
+      price: '49.99',
+      currency: 'USD'
+    }
+  };
 
   useEffect(() => {
     // Load PayPal SDK on web with card support
@@ -16,9 +38,87 @@ export default function PaywallScreen() {
       // Enable card payments + PayPal + Venmo
       script.src = `https://www.paypal.com/sdk/js?client-id=AYVkgS2OgtdJWVAtCbu3u031NIIkyFydJ0x86F0e6iMgdC3w4-SphYJalN21vlPHm-hlKAafSE-busGR&vault=true&intent=subscription&disable-funding=paylater&enable-funding=card,venmo`;
       script.async = true;
+      script.onload = () => setPaypalLoaded(true);
       document.body.appendChild(script);
     }
   }, []);
+
+  useEffect(() => {
+    // Render PayPal buttons when SDK is loaded
+    if (paypalLoaded && Platform.OS === 'web' && typeof window !== 'undefined') {
+      const container = document.getElementById('paypal-button-container');
+      if (!container) return;
+      
+      // Clear any existing buttons
+      container.innerHTML = '';
+
+      const plan = planDetails[selectedPlan];
+      
+      // @ts-ignore - PayPal SDK types
+      window.paypal.Buttons({
+        style: {
+          layout: 'vertical',
+          color: 'gold',
+          shape: 'rect',
+          label: 'paypal'
+        },
+        createOrder: (data: any, actions: any) => {
+          if (selectedPlan === 'lifetime') {
+            // One-time payment
+            return actions.order.create({
+              purchase_units: [{
+                description: plan.name,
+                amount: {
+                  currency_code: plan.currency,
+                  value: plan.price,
+                },
+              }],
+              application_context: {
+                shipping_preference: 'NO_SHIPPING'
+              }
+            });
+          } else {
+            // Subscription
+            return actions.subscription.create({
+              plan_id: plan.planId,
+            });
+          }
+        },
+        onApprove: async (data: any, actions: any) => {
+          try {
+            let details;
+            if (selectedPlan === 'lifetime') {
+              details = await actions.order.capture();
+            } else {
+              details = await actions.subscription.get();
+            }
+
+            // Save premium status to localStorage
+            const premiumData = {
+              isPremium: true,
+              planType: selectedPlan,
+              purchaseDate: new Date().toISOString(),
+              expiresAt: selectedPlan === 'lifetime' ? null : new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).getTime(),
+              orderId: details.id,
+            };
+
+            localStorage.setItem('premium_status', JSON.stringify(premiumData));
+            alert('Purchase successful! Thank you for going premium! 🎉');
+            window.location.reload(); // Reload to update premium status
+          } catch (error: any) {
+            alert('Payment processing error: ' + error.message);
+          }
+        },
+        onError: (err: any) => {
+          console.error('PayPal error:', err);
+          alert('Payment failed. Please try again.');
+        },
+        onCancel: () => {
+          alert('Payment cancelled.');
+        },
+      }).render('#paypal-button-container');
+    }
+  }, [paypalLoaded, selectedPlan]);
 
   const plans = [
     {
@@ -57,24 +157,6 @@ export default function PaywallScreen() {
     'Priority support',
     'Lifetime updates',
   ];
-
-  const handlePurchase = async () => {
-    if (Platform.OS !== 'web') {
-      alert('Please use the web version to complete your purchase at https://tmaenge-dot.github.io/shorthand-simplified/');
-      return;
-    }
-
-    setPurchasing(true);
-    const result = await purchasePlan(selectedPlan);
-    setPurchasing(false);
-
-    if (result.success) {
-      alert('Purchase successful! Thank you for going premium! 🎉');
-      router.back();
-    } else {
-      alert(result.error || 'Purchase failed. Please try again.');
-    }
-  };
 
   if (isPremium) {
     return (
@@ -181,26 +263,21 @@ export default function PaywallScreen() {
       {Platform.OS === 'web' && (
         <View style={styles.paypalContainer}>
           <Text style={styles.paypalInstructions}>
-            Choose your payment method below:
+            {paypalLoaded ? 'Choose your payment method below:' : 'Loading payment options...'}
           </Text>
+          {!paypalLoaded && <ActivityIndicator color="#0070BA" size="large" style={{ marginTop: 20 }} />}
           <div id="paypal-button-container" style={{ width: '100%', maxWidth: 400, margin: '0 auto' }}></div>
         </View>
       )}
 
-      {/* Purchase Button */}
-      <Pressable
-        style={[styles.purchaseButton, purchasing && styles.purchaseButtonDisabled]}
-        onPress={handlePurchase}
-        disabled={purchasing || isLoading}
-      >
-        {purchasing || isLoading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.purchaseButtonText}>
-            {Platform.OS === 'web' ? 'Choose Payment Method Above' : 'Continue on Web'}
+      {/* Non-web notice */}
+      {Platform.OS !== 'web' && (
+        <View style={styles.nonWebNotice}>
+          <Text style={styles.nonWebText}>
+            Please visit https://tmaenge-dot.github.io/shorthand-simplified/ on a web browser to complete your purchase
           </Text>
-        )}
-      </Pressable>
+        </View>
+      )}
 
       {/* Secure Payment Notice */}
       <View style={styles.secureNotice}>
@@ -468,5 +545,19 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  nonWebNotice: {
+    backgroundColor: '#fff3cd',
+    padding: 20,
+    margin: 20,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#ffc107',
+  },
+  nonWebText: {
+    fontSize: 14,
+    color: '#856404',
+    textAlign: 'center',
+    lineHeight: 20,
   },
 });

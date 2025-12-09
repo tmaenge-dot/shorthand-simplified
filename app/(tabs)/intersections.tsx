@@ -5,12 +5,12 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { PremiumLock } from '@/components/PremiumLock';
 import { intersectionsData } from '@/data/intersections';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { usePremium } from '@/contexts/PremiumContext';
+import { usePayPal } from '@/contexts/PayPalContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 export default function IntersectionsScreen() {
-  const { isPremium } = usePremium();
+  const { isPremium } = usePayPal();
   const colorScheme = useColorScheme();
 
   // Show premium lock if not premium
