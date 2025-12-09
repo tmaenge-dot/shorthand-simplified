@@ -1,0 +1,15 @@
+# Robots.txt for Shorthand Simplified
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://tmaenge-dot.github.io/shorthand-simplified/sitemap.xml
+
+# Disallow admin/private pages (if any)
+Disallow: /paywall
+Disallow: /modal
+
+# Crawl delay (optional, helps prevent overloading)
+Crawl-delay: 1
