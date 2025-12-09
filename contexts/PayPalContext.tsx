@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Platform } from 'react-native';
 
 // PayPal Configuration
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'AYVkgS2QatdJWVAlCbu3u031NIjkvFvdJ0x86F0e6IMgdC3w4-SphYJalN2TvlPHm-hIKAafSE-busGR';
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'AYVkgS2OgtdJWVAtCbu3u031NIIkyFydJ0x86F0e6iMgdC3w4-SphYJalN21vlPHm-hlKAafSE-busGR';
 
 interface PayPalContextType {
   isPremium: boolean;
@@ -32,20 +32,20 @@ const PLANS = {
     price: '4.99',
     currency: 'USD',
     interval: 'MONTH',
-    planId: 'P-XXX', // Create in PayPal dashboard
+    planId: 'P-9F642900T4091545LNE4EEYQ',
   },
   annual: {
     name: 'Premium Annual',
     price: '29.99',
     currency: 'USD',
     interval: 'YEAR',
-    planId: 'P-YYY', // Create in PayPal dashboard
+    planId: 'P-2TW28080XL942540NNE4EE6I',
   },
   lifetime: {
     name: 'Premium Lifetime',
     price: '49.99',
     currency: 'USD',
-    planId: 'PRODUCT-ZZZ', // One-time product
+    planId: 'PROD-06Y7794429516770G',
   },
 };
 

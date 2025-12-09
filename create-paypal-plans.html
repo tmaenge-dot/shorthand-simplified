@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create PayPal Subscription Plans</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0070BA;
+            margin-bottom: 10px;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        button {
+            background: #0070BA;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+            display: inline-block;
+        }
+        button:hover {
+            background: #005a93;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #e8f5e9;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+        }
+        .error {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+        }
+        .plan-id {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ffc107;
+        }
+        .plan-id strong {
+            color: #f57c00;
+        }
+        .step {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Create PayPal Subscription Plans</h1>
+        <p>This tool will create 3 subscription plans for your Shorthand app.</p>
+
+        <div class="info">
+            <strong>⚠️ Important:</strong> Make sure you're creating plans in <strong>LIVE</strong> mode (not Sandbox).
+            <br><br>
+            Your PayPal Client ID: <code>AYVkgS2QatdJWVAlCbu3u031NIjkvFvdJ0x86F0e6IMgdC3w4-SphYJalN2TvlPHm-hIKAafSE-busGR</code>
+        </div>
+
+        <div class="step">
+            <h3>Step 1: Get Your Secret Key</h3>
+            <p>Go to your PayPal Developer Dashboard and copy your <strong>Secret Key</strong></p>
+            <input type="password" id="secretKey" placeholder="Paste your Secret Key here" style="width: 100%; padding: 10px; margin: 10px 0;">
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Create Plans</h3>
+            <button onclick="createAllPlans()" id="createBtn">Create All 3 Plans</button>
+            <button onclick="createMonthly()" id="monthlyBtn">Monthly Only ($4.99)</button>
+            <button onclick="createAnnual()" id="annualBtn">Annual Only ($29.99)</button>
+            <button onclick="createLifetime()" id="lifetimeBtn">Lifetime Only ($49.99)</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const CLIENT_ID = 'AYVkgS2QatdJWVAlCbu3u031NIjkvFvdJ0x86F0e6IMgdC3w4-SphYJalN2TvlPHm-hIKAafSE-busGR';
+        const SANDBOX = false; // Set to false for LIVE mode
+
+        async function getAccessToken() {
+            const secretKey = document.getElementById('secretKey').value;
+            if (!secretKey) {
+                alert('Please enter your Secret Key first!');
+                return null;
+            }
+
+            const url = SANDBOX 
+                ? 'https://api-m.sandbox.paypal.com/v1/oauth2/token'
+                : 'https://api-m.paypal.com/v1/oauth2/token';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + secretKey)
+                    },
+                    body: 'grant_type=client_credentials'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get access token. Check your Secret Key.');
+                }
+
+                const data = await response.json();
+                return data.access_token;
+            } catch (error) {
+                showResult('Error getting access token: ' + error.message, 'error');
+                return null;
+            }
+        }
+
+        async function createProduct(accessToken, name, description) {
+            const url = SANDBOX 
+                ? 'https://api-m.sandbox.paypal.com/v1/catalogs/products'
+                : 'https://api-m.paypal.com/v1/catalogs/products';
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken
+                },
+                body: JSON.stringify({
+                    name: name,
+                    description: description,
+                    type: 'SERVICE',
+                    category: 'SOFTWARE'
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create product');
+            }
+
+            const data = await response.json();
+            return data.id;
+        }
+
+        async function createPlan(accessToken, productId, name, price, interval) {
+            const url = SANDBOX 
+                ? 'https://api-m.sandbox.paypal.com/v1/billing/plans'
+                : 'https://api-m.paypal.com/v1/billing/plans';
+
+            const body = {
+                product_id: productId,
+                name: name,
+                description: `Shorthand Simplified ${name}`,
+                billing_cycles: [
+                    {
+                        frequency: {
+                            interval_unit: interval,
+                            interval_count: 1
+                        },
+                        tenure_type: 'REGULAR',
+                        sequence: 1,
+                        total_cycles: 0, // Infinite
+                        pricing_scheme: {
+                            fixed_price: {
+                                value: price,
+                                currency_code: 'USD'
+                            }
+                        }
+                    }
+                ],
+                payment_preferences: {
+                    auto_bill_outstanding: true,
+                    setup_fee_failure_action: 'CONTINUE',
+                    payment_failure_threshold: 3
+                }
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error('Failed to create plan: ' + error);
+            }
+
+            const data = await response.json();
+            return data;
+        }
+
+        async function createMonthly() {
+            disableButtons();
+            showResult('Creating Monthly Plan...', 'info');
+
+            try {
+                const token = await getAccessToken();
+                if (!token) return;
+
+                const productId = await createProduct(token, 'Shorthand Simplified Premium', 'Premium subscription for Shorthand Simplified app');
+                const plan = await createPlan(token, productId, 'Premium Monthly', '4.99', 'MONTH');
+
+                showResult(`✅ Monthly Plan Created!\n\nPlan ID: ${plan.id}\n\nCopy this ID and update your code!`, 'success');
+                showPlanId('Monthly', plan.id);
+            } catch (error) {
+                showResult('❌ Error: ' + error.message, 'error');
+            } finally {
+                enableButtons();
+            }
+        }
+
+        async function createAnnual() {
+            disableButtons();
+            showResult('Creating Annual Plan...', 'info');
+
+            try {
+                const token = await getAccessToken();
+                if (!token) return;
+
+                const productId = await createProduct(token, 'Shorthand Simplified Premium Annual', 'Annual Premium subscription for Shorthand Simplified app');
+                const plan = await createPlan(token, productId, 'Premium Annual', '29.99', 'YEAR');
+
+                showResult(`✅ Annual Plan Created!\n\nPlan ID: ${plan.id}\n\nCopy this ID and update your code!`, 'success');
+                showPlanId('Annual', plan.id);
+            } catch (error) {
+                showResult('❌ Error: ' + error.message, 'error');
+            } finally {
+                enableButtons();
+            }
+        }
+
+        async function createLifetime() {
+            disableButtons();
+            showResult('Creating Lifetime Product...', 'info');
+
+            try {
+                const token = await getAccessToken();
+                if (!token) return;
+
+                const productId = await createProduct(token, 'Shorthand Simplified Lifetime Access', 'One-time payment for lifetime access to Shorthand Simplified Premium features');
+
+                showResult(`✅ Lifetime Product Created!\n\nProduct ID: ${productId}\n\nCopy this ID and update your code!`, 'success');
+                showPlanId('Lifetime', productId);
+            } catch (error) {
+                showResult('❌ Error: ' + error.message, 'error');
+            } finally {
+                enableButtons();
+            }
+        }
+
+        async function createAllPlans() {
+            disableButtons();
+            document.getElementById('results').innerHTML = '';
+            
+            try {
+                await createMonthly();
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                await createAnnual();
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                await createLifetime();
+                
+                showResult('\n\n🎉 All plans created successfully!\n\nNow update contexts/PayPalContext.tsx with these Plan IDs.', 'success');
+            } catch (error) {
+                showResult('Error creating plans: ' + error.message, 'error');
+            } finally {
+                enableButtons();
+            }
+        }
+
+        function showResult(message, type) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = 'result ' + type;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        function showPlanId(planName, planId) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = 'plan-id';
+            div.innerHTML = `<strong>${planName} Plan ID:</strong><br><code>${planId}</code>`;
+            results.appendChild(div);
+        }
+
+        function disableButtons() {
+            document.getElementById('createBtn').disabled = true;
+            document.getElementById('monthlyBtn').disabled = true;
+            document.getElementById('annualBtn').disabled = true;
+            document.getElementById('lifetimeBtn').disabled = true;
+        }
+
+        function enableButtons() {
+            document.getElementById('createBtn').disabled = false;
+            document.getElementById('monthlyBtn').disabled = false;
+            document.getElementById('annualBtn').disabled = false;
+            document.getElementById('lifetimeBtn').disabled = false;
+        }
+    </script>
+</body>
+</html>
