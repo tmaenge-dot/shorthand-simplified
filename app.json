@@ -38,7 +38,16 @@
     "web": {
       "output": "static",
       "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "meta": {
+        "title": "Shorthand Simplified - AI-Powered Pitman Shorthand Learning",
+        "description": "Learn Pitman Shorthand with AI-powered recognition. Master strokes, shortforms, phrases, and outlines with instant feedback. Free and premium lessons available.",
+        "keywords": "pitman shorthand, shorthand learning, AI shorthand, shorthand app, stenography, speed writing, learn shorthand online, pitman method, shorthand course",
+        "author": "Shorthand Simplified",
+        "apple-mobile-web-app-capable": "yes",
+        "apple-mobile-web-app-status-bar-style": "default",
+        "theme-color": "#0A7EA4"
+      }
     },
     "plugins": [
       "expo-router",
