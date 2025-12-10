@@ -38,7 +38,13 @@ export default function PaywallScreen() {
       // Enable card payments + PayPal + Venmo
       script.src = `https://www.paypal.com/sdk/js?client-id=AYVkgS2OgtdJWVAtCbu3u031NIIkyFydJ0x86F0e6iMgdC3w4-SphYJalN21vlPHm-hlKAafSE-busGR&vault=true&intent=subscription&disable-funding=paylater&enable-funding=card,venmo`;
       script.async = true;
-      script.onload = () => setPaypalLoaded(true);
+      script.onload = () => {
+        console.log('PayPal SDK loaded successfully');
+        setPaypalLoaded(true);
+      };
+      script.onerror = (err) => {
+        console.error('Failed to load PayPal SDK:', err);
+      };
       document.body.appendChild(script);
     }
   }, []);
@@ -46,97 +52,102 @@ export default function PaywallScreen() {
   useEffect(() => {
     // Render PayPal buttons when SDK is loaded
     if (paypalLoaded && Platform.OS === 'web' && typeof window !== 'undefined') {
-      const container = document.getElementById('paypal-button-container');
-      if (!container) {
-        console.error('PayPal button container not found');
-        return;
-      }
-      
-      // Check if PayPal SDK is actually loaded
-      // @ts-ignore
-      if (typeof window.paypal === 'undefined') {
-        console.error('PayPal SDK not loaded');
-        return;
-      }
-      
-      // Clear any existing buttons
-      container.innerHTML = '';
+      // Small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        const container = document.getElementById('paypal-button-container');
+        if (!container) {
+          console.error('PayPal button container not found');
+          return;
+        }
+        
+        // Check if PayPal SDK is actually loaded
+        // @ts-ignore
+        if (typeof window.paypal === 'undefined') {
+          console.error('PayPal SDK not loaded');
+          return;
+        }
+        
+        // Clear any existing buttons
+        container.innerHTML = '';
 
-      const plan = planDetails[selectedPlan];
-      
-      console.log('Rendering PayPal buttons for plan:', selectedPlan, plan);
-      
-      // @ts-ignore - PayPal SDK types
-      window.paypal.Buttons({
-        style: {
-          layout: 'vertical',
-          color: 'gold',
-          shape: 'rect',
-          label: 'paypal',
-          height: 45
-        },
-        createOrder: (data: any, actions: any) => {
-          console.log('Creating order for plan:', selectedPlan);
-          if (selectedPlan === 'lifetime') {
-            // One-time payment
-            return actions.order.create({
-              purchase_units: [{
-                description: plan.name,
-                amount: {
-                  currency_code: plan.currency,
-                  value: plan.price,
-                },
-              }],
-              application_context: {
-                shipping_preference: 'NO_SHIPPING'
-              }
-            });
-          } else {
-            // Subscription
-            return actions.subscription.create({
-              plan_id: plan.planId,
-            });
-          }
-        },
-        onApprove: async (data: any, actions: any) => {
-          console.log('Payment approved:', data);
-          try {
-            let details;
+        const plan = planDetails[selectedPlan];
+        
+        console.log('Rendering PayPal buttons for plan:', selectedPlan, plan);
+        
+        // @ts-ignore - PayPal SDK types
+        window.paypal.Buttons({
+          style: {
+            layout: 'vertical',
+            color: 'gold',
+            shape: 'rect',
+            label: 'paypal',
+            height: 45
+          },
+          createOrder: (data: any, actions: any) => {
+            console.log('Creating order for plan:', selectedPlan);
             if (selectedPlan === 'lifetime') {
-              details = await actions.order.capture();
+              // One-time payment
+              return actions.order.create({
+                purchase_units: [{
+                  description: plan.name,
+                  amount: {
+                    currency_code: plan.currency,
+                    value: plan.price,
+                  },
+                }],
+                application_context: {
+                  shipping_preference: 'NO_SHIPPING'
+                }
+              });
             } else {
-              details = await actions.subscription.get();
+              // Subscription
+              return actions.subscription.create({
+                plan_id: plan.planId,
+              });
             }
+          },
+          onApprove: async (data: any, actions: any) => {
+            console.log('Payment approved:', data);
+            try {
+              let details;
+              if (selectedPlan === 'lifetime') {
+                details = await actions.order.capture();
+              } else {
+                details = await actions.subscription.get();
+              }
 
-            // Save premium status to localStorage
-            const premiumData = {
-              isPremium: true,
-              planType: selectedPlan,
-              purchaseDate: new Date().toISOString(),
-              expiresAt: selectedPlan === 'lifetime' ? null : new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).getTime(),
-              orderId: details.id,
-            };
+              // Save premium status to localStorage
+              const premiumData = {
+                isPremium: true,
+                planType: selectedPlan,
+                purchaseDate: new Date().toISOString(),
+                expiresAt: selectedPlan === 'lifetime' ? null : new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).getTime(),
+                orderId: details.id,
+              };
 
-            localStorage.setItem('premium_status', JSON.stringify(premiumData));
-            alert('Purchase successful! Thank you for going premium! 🎉');
-            window.location.reload(); // Reload to update premium status
-          } catch (error: any) {
-            console.error('Payment processing error:', error);
-            alert('Payment processing error: ' + error.message);
-          }
-        },
-        onError: (err: any) => {
-          console.error('PayPal error:', err);
-          alert('Payment failed. Please try again.');
-        },
-        onCancel: () => {
-          console.log('Payment cancelled by user');
-          alert('Payment cancelled.');
-        },
-      }).render('#paypal-button-container').catch((err: any) => {
-        console.error('Failed to render PayPal buttons:', err);
-        alert('Failed to load payment buttons. Please refresh the page.');
-      });
+              localStorage.setItem('premium_status', JSON.stringify(premiumData));
+              alert('Purchase successful! Thank you for going premium! 🎉');
+              window.location.reload(); // Reload to update premium status
+            } catch (error: any) {
+              console.error('Payment processing error:', error);
+              alert('Payment processing error: ' + error.message);
+            }
+          },
+          onError: (err: any) => {
+            console.error('PayPal error:', err);
+            alert('Payment failed. Please try again.');
+          },
+          onCancel: () => {
+            console.log('Payment cancelled by user');
+            alert('Payment cancelled.');
+          },
+        }).render('#paypal-button-container').catch((err: any) => {
+          console.error('Failed to render PayPal buttons:', err);
+          alert('Failed to load payment buttons. Please refresh the page.');
+        });
+      }, 300); // 300ms delay
+
+      return () => clearTimeout(timer);
     }
   }, [paypalLoaded, selectedPlan]);
 
