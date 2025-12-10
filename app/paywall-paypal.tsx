@@ -34,12 +34,20 @@ export default function PaywallScreen() {
   useEffect(() => {
     // Load PayPal SDK on web with card support
     if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      // Remove existing PayPal script if any
+      const existingScript = document.querySelector('script[src*="paypal.com/sdk/js"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+      
       const script = document.createElement('script');
-      // Enable card payments + PayPal + Venmo
-      script.src = `https://www.paypal.com/sdk/js?client-id=AYVkgS2OgtdJWVAtCbu3u031NIIkyFydJ0x86F0e6iMgdC3w4-SphYJalN21vlPHm-hlKAafSE-busGR&vault=true&intent=subscription&disable-funding=paylater&enable-funding=card,venmo`;
+      // Use capture intent to support both one-time payments and subscriptions
+      script.src = `https://www.paypal.com/sdk/js?client-id=AYVkgS2OgtdJWVAtCbu3u031NIIkyFydJ0x86F0e6iMgdC3w4-SphYJalN21vlPHm-hlKAafSE-busGR&vault=true&intent=capture&disable-funding=paylater&enable-funding=card,venmo`;
       script.async = true;
       script.onload = () => {
         console.log('PayPal SDK loaded successfully');
+        // @ts-ignore
+        console.log('PayPal object:', typeof window !== 'undefined' ? typeof window.paypal : 'undefined');
         setPaypalLoaded(true);
       };
       script.onerror = (err) => {
@@ -83,38 +91,26 @@ export default function PaywallScreen() {
             label: 'paypal',
             height: 45
           },
+          // Use createOrder for all plans (one-time payments)
           createOrder: (data: any, actions: any) => {
             console.log('Creating order for plan:', selectedPlan);
-            if (selectedPlan === 'lifetime') {
-              // One-time payment
-              return actions.order.create({
-                purchase_units: [{
-                  description: plan.name,
-                  amount: {
-                    currency_code: plan.currency,
-                    value: plan.price,
-                  },
-                }],
-                application_context: {
-                  shipping_preference: 'NO_SHIPPING'
-                }
-              });
-            } else {
-              // Subscription
-              return actions.subscription.create({
-                plan_id: plan.planId,
-              });
-            }
+            return actions.order.create({
+              purchase_units: [{
+                description: plan.name,
+                amount: {
+                  currency_code: plan.currency,
+                  value: plan.price,
+                },
+              }],
+              application_context: {
+                shipping_preference: 'NO_SHIPPING'
+              }
+            });
           },
           onApprove: async (data: any, actions: any) => {
             console.log('Payment approved:', data);
             try {
-              let details;
-              if (selectedPlan === 'lifetime') {
-                details = await actions.order.capture();
-              } else {
-                details = await actions.subscription.get();
-              }
+              const details = await actions.order.capture();
 
               // Save premium status to localStorage
               const premiumData = {
