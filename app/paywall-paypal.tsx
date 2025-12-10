@@ -87,10 +87,10 @@ export default function PaywallScreen() {
             height: 45
           },
           // Use createOrder for all plans (one-time payments)
-          },
-          // Use createOrder for all plans (one-time payments)
           createOrder: (data: any, actions: any) => {
             return actions.order.create({
+              purchase_units: [{
+                description: plan.name,
                 amount: {
                   currency_code: plan.currency,
                   value: plan.price,
@@ -101,12 +101,12 @@ export default function PaywallScreen() {
               }
             });
           },
-          onApprove: async (data: any, actions: any) => {
-            console.log('Payment approved:', data);
           },
           onApprove: async (data: any, actions: any) => {
-            try {
-              const details = await actions.order.capture();
+            try {st details = await actions.order.capture();
+
+              // Save premium status to localStorage
+              const premiumData = {
                 isPremium: true,
                 planType: selectedPlan,
                 purchaseDate: new Date().toISOString(),
@@ -127,10 +127,10 @@ export default function PaywallScreen() {
             alert('Payment failed. Please try again.');
           },
           onCancel: () => {
-          },
-          onCancel: () => {
             alert('Payment cancelled.');
-          },nsole.error('Failed to render PayPal buttons:', err);
+          },
+        }).render('#paypal-button-container').catch((err: any) => {
+          console.error('Failed to render PayPal buttons:', err);
           alert('Failed to load payment buttons. Please refresh the page.');
         });
       }, 300); // 300ms delay
