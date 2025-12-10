@@ -45,6 +45,9 @@ export default function PaywallScreen() {
       script.src = `https://www.paypal.com/sdk/js?client-id=AYVkgS2OgtdJWVAtCbu3u031NIIkyFydJ0x86F0e6iMgdC3w4-SphYJalN21vlPHm-hlKAafSE-busGR&vault=true&intent=capture&disable-funding=paylater&enable-funding=card,venmo`;
       script.async = true;
       script.onload = () => {
+        console.log('PayPal SDK loaded successfully');
+        // @ts-ignore
+        console.log('PayPal object:', typeof window !== 'undefined' ? typeof window.paypal : 'undefined');
         setPaypalLoaded(true);
       };
       script.onerror = (err) => {
@@ -77,6 +80,8 @@ export default function PaywallScreen() {
 
         const plan = planDetails[selectedPlan];
         
+        console.log('Rendering PayPal buttons for plan:', selectedPlan, plan);
+        
         // @ts-ignore - PayPal SDK types
         window.paypal.Buttons({
           style: {
@@ -88,6 +93,7 @@ export default function PaywallScreen() {
           },
           // Use createOrder for all plans (one-time payments)
           createOrder: (data: any, actions: any) => {
+            console.log('Creating order for plan:', selectedPlan);
             return actions.order.create({
               purchase_units: [{
                 description: plan.name,
@@ -101,9 +107,10 @@ export default function PaywallScreen() {
               }
             });
           },
-          },
           onApprove: async (data: any, actions: any) => {
-            try {st details = await actions.order.capture();
+            console.log('Payment approved:', data);
+            try {
+              const details = await actions.order.capture();
 
               // Save premium status to localStorage
               const premiumData = {
@@ -127,6 +134,7 @@ export default function PaywallScreen() {
             alert('Payment failed. Please try again.');
           },
           onCancel: () => {
+            console.log('Payment cancelled by user');
             alert('Payment cancelled.');
           },
         }).render('#paypal-button-container').catch((err: any) => {
