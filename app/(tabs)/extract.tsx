@@ -50,8 +50,6 @@ export default function ShortformInputScreen() {
     try {
       const tsContent = generateTypeScriptFile(forms);
       const json = JSON.stringify(forms, null, 2);
-      console.log('Generated TypeScript:', tsContent);
-      console.log('JSON Data:', json);
     } catch (error) {
       console.error('Error saving file:', error);
     }
@@ -82,10 +80,9 @@ export default extractedShortforms;
 
   const exportData = () => {
     const json = JSON.stringify(savedForms, null, 2);
-    console.log('Export Data:', json);
     Alert.alert(
       'Export Ready',
-      `${savedForms.length} shortforms ready to export.\nCheck console for JSON data.`,
+      `${savedForms.length} shortforms ready to export.`,
       [{ text: 'OK' }]
     );
   };
