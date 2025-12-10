@@ -47,12 +47,24 @@ export default function PaywallScreen() {
     // Render PayPal buttons when SDK is loaded
     if (paypalLoaded && Platform.OS === 'web' && typeof window !== 'undefined') {
       const container = document.getElementById('paypal-button-container');
-      if (!container) return;
+      if (!container) {
+        console.error('PayPal button container not found');
+        return;
+      }
+      
+      // Check if PayPal SDK is actually loaded
+      // @ts-ignore
+      if (typeof window.paypal === 'undefined') {
+        console.error('PayPal SDK not loaded');
+        return;
+      }
       
       // Clear any existing buttons
       container.innerHTML = '';
 
       const plan = planDetails[selectedPlan];
+      
+      console.log('Rendering PayPal buttons for plan:', selectedPlan, plan);
       
       // @ts-ignore - PayPal SDK types
       window.paypal.Buttons({
@@ -60,9 +72,11 @@ export default function PaywallScreen() {
           layout: 'vertical',
           color: 'gold',
           shape: 'rect',
-          label: 'paypal'
+          label: 'paypal',
+          height: 45
         },
         createOrder: (data: any, actions: any) => {
+          console.log('Creating order for plan:', selectedPlan);
           if (selectedPlan === 'lifetime') {
             // One-time payment
             return actions.order.create({
@@ -85,6 +99,7 @@ export default function PaywallScreen() {
           }
         },
         onApprove: async (data: any, actions: any) => {
+          console.log('Payment approved:', data);
           try {
             let details;
             if (selectedPlan === 'lifetime') {
@@ -106,6 +121,7 @@ export default function PaywallScreen() {
             alert('Purchase successful! Thank you for going premium! 🎉');
             window.location.reload(); // Reload to update premium status
           } catch (error: any) {
+            console.error('Payment processing error:', error);
             alert('Payment processing error: ' + error.message);
           }
         },
@@ -114,9 +130,13 @@ export default function PaywallScreen() {
           alert('Payment failed. Please try again.');
         },
         onCancel: () => {
+          console.log('Payment cancelled by user');
           alert('Payment cancelled.');
         },
-      }).render('#paypal-button-container');
+      }).render('#paypal-button-container').catch((err: any) => {
+        console.error('Failed to render PayPal buttons:', err);
+        alert('Failed to load payment buttons. Please refresh the page.');
+      });
     }
   }, [paypalLoaded, selectedPlan]);
 
