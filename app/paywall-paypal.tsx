@@ -113,15 +113,39 @@ export default function PaywallScreen() {
               const details = await actions.order.capture();
 
               // Save premium status to localStorage
+              const expiresAt = selectedPlan === 'lifetime' ? null : new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000);
               const premiumData = {
                 isPremium: true,
                 planType: selectedPlan,
                 purchaseDate: new Date().toISOString(),
-                expiresAt: selectedPlan === 'lifetime' ? null : new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).getTime(),
+                expiresAt: expiresAt?.getTime() || null,
                 orderId: details.id,
               };
 
               localStorage.setItem('premium_status', JSON.stringify(premiumData));
+
+              // Record purchase in Firebase if available
+              try {
+                const { recordPurchase } = await import('@/services/firebase');
+                const userEmail = prompt('Please enter your email for receipt:') || 'unknown@example.com';
+                
+                await recordPurchase({
+                  userId: userEmail.replace(/[@.]/g, '_'), // Use email as userId
+                  email: userEmail,
+                  planType: selectedPlan,
+                  amount: parseFloat(planDetails[selectedPlan].price),
+                  currency: planDetails[selectedPlan].currency,
+                  paypalOrderId: details.id,
+                  paypalTransactionId: details.payer?.email_address,
+                  status: 'completed',
+                  expiresAt: expiresAt,
+                  deviceInfo: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+                });
+              } catch (firebaseError) {
+                console.warn('Firebase recording skipped (not configured):', firebaseError);
+                // This is optional - app works even without Firebase
+              }
+
               alert('Purchase successful! Thank you for going premium! 🎉');
               window.location.reload(); // Reload to update premium status
             } catch (error: any) {

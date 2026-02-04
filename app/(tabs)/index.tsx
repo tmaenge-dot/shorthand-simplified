@@ -15,7 +15,170 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { paddingTop: 80 }]}>
+      <ThemedView style={styles.content}>
+        <ThemedView style={styles.section}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            Quick Navigation
+          </ThemedText>
+          
+          <Pressable 
+            onPress={() => handleNavigation('/recognize')}
+            style={{ cursor: 'pointer' }}
+          >
+            <LinearGradient
+              colors={colorScheme === 'dark' ? ['rgba(102, 126, 234, 0.2)', 'rgba(118, 75, 162, 0.2)'] : ['#667eea', '#764ba2']}
+              style={[styles.featureCard, styles.aiFeatureCard]}
+            >
+              <View style={styles.featureItem}>
+                <LinearGradient
+                  colors={['#4facfe', '#00f2fe']}
+                  style={[styles.featureIcon, styles.aiFeatureIcon]}
+                >
+                  <IconSymbol name="sparkles" size={28} color="#fff" />
+                </LinearGradient>
+                <View style={styles.featureText}>
+                  <ThemedText type="defaultSemiBold" style={styles.aiFeatureTitle}>
+                    AI Recognition
+                  </ThemedText>
+                  <ThemedText style={styles.featureDescription}>
+                    Practice and get instant AI feedback on your strokes
+                  </ThemedText>
+                </View>
+                <IconSymbol name="chevron.right" size={20} color="#fff" />
+              </View>
+            </LinearGradient>
+          </Pressable>
+          
+          <Pressable 
+            onPress={() => handleNavigation('/strokes')}
+            style={{ cursor: 'pointer' }}
+          >
+            <LinearGradient
+              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
+              style={styles.featureCard}
+            >
+              <View style={styles.featureItem}>
+                <LinearGradient
+                  colors={['#667eea', '#764ba2']}
+                  style={styles.featureIcon}
+                >
+                  <IconSymbol name="pencil.line" size={24} color="#fff" />
+                </LinearGradient>
+                <View style={styles.featureText}>
+                  <ThemedText type="defaultSemiBold">Strokes</ThemedText>
+                  <ThemedText style={styles.featureDescription}>
+                    24 consonants, 12 vowels from reference book
+                  </ThemedText>
+                </View>
+              </View>
+            </LinearGradient>
+          </Pressable>
+
+          <Pressable 
+            onPress={() => handleNavigation('/shortforms')}
+            style={{ cursor: 'pointer' }}
+          >
+            <LinearGradient
+              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
+              style={styles.featureCard}
+            >
+              <View style={styles.featureItem}>
+                <LinearGradient
+                  colors={['#f093fb', '#f5576c']}
+                  style={styles.featureIcon}
+                >
+                  <IconSymbol name="text.badge.checkmark" size={24} color="#fff" />
+                </LinearGradient>
+                <View style={styles.featureText}>
+                  <ThemedText type="defaultSemiBold">Shortforms</ThemedText>
+                  <ThemedText style={styles.featureDescription}>
+                    Master abbreviated forms of common words
+                  </ThemedText>
+                </View>
+              </View>
+            </LinearGradient>
+          </Pressable>
+
+          <Pressable 
+            onPress={() => handleNavigation('/phrases')}
+            style={{ cursor: 'pointer' }}
+          >
+            <LinearGradient
+              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
+              style={styles.featureCard}
+            >
+              <View style={styles.featureItem}>
+                <LinearGradient
+                  colors={['#4facfe', '#00f2fe']}
+                  style={styles.featureIcon}
+                >
+                  <IconSymbol name="text.quote" size={24} color="#fff" />
+                </LinearGradient>
+                <View style={styles.featureText}>
+                  <ThemedText type="defaultSemiBold">Phrases</ThemedText>
+                  <ThemedText style={styles.featureDescription}>
+                    Practice frequently used phrase combinations
+                  </ThemedText>
+                </View>
+              </View>
+            </LinearGradient>
+          </Pressable>
+
+          <Pressable 
+            onPress={() => handleNavigation('/outlines')}
+            style={{ cursor: 'pointer' }}
+          >
+            <LinearGradient
+              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
+              style={styles.featureCard}
+            >
+              <View style={styles.featureItem}>
+                <LinearGradient
+                  colors={['#fa709a', '#fee140']}
+                  style={styles.featureIcon}
+                >
+                  <IconSymbol name="book.fill" size={24} color="#fff" />
+                </LinearGradient>
+                <View style={styles.featureText}>
+                  <ThemedText type="defaultSemiBold">Outlines</ThemedText>
+                  <ThemedText style={styles.featureDescription}>
+                    Study complete word representations
+                  </ThemedText>
+                </View>
+              </View>
+            </LinearGradient>
+          </Pressable>
+
+          <Pressable 
+            onPress={() => handleNavigation('/qa')}
+            style={{ cursor: 'pointer' }}
+          >
+            <LinearGradient
+              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
+              style={styles.featureCard}
+            >
+              <View style={styles.featureItem}>
+                <LinearGradient
+                  colors={['#30cfd0', '#330867']}
+                  style={styles.featureIcon}
+                >
+                  <IconSymbol name="questionmark.circle.fill" size={24} color="#fff" />
+                </LinearGradient>
+                <View style={styles.featureText}>
+                  <ThemedText type="defaultSemiBold">Q&A Guidelines</ThemedText>
+                  <ThemedText style={styles.featureDescription}>
+                    Get answers to common questions and tips
+                  </ThemedText>
+                </View>
+              </View>
+            </LinearGradient>
+          </Pressable>
+        </ThemedView>
+      </ThemedView>
+
+      {/* Header moved below navigation */}
+      <ThemedView style={[styles.content, { display: 'none' }]}>
       <LinearGradient
         colors={colorScheme === 'dark' ? ['#1a1a2e', '#16213e', '#0f3460'] : ['#667eea', '#764ba2', '#f093fb']}
         style={styles.headerGradient}
@@ -39,47 +202,9 @@ export default function HomeScreen() {
           </ThemedText>
         </ThemedView>
       </LinearGradient>
+      </ThemedView>
 
       <ThemedView style={styles.content}>
-        {/* AI Recognition Gateway - Main Feature */}
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>
-            🤖 AI-Powered Learning Gateway
-          </ThemedText>
-          <ThemedText style={styles.text}>
-            Our AI recognition system uses your reference materials to provide instant 
-            feedback and guide your learning journey.
-          </ThemedText>
-          
-          <Pressable 
-            onPress={() => handleNavigation('/recognize')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={['#667eea', '#764ba2']}
-              style={styles.ctaCard}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <View style={styles.ctaContent}>
-                <View style={styles.ctaIconWrapper}>
-                  <IconSymbol name="camera.fill" size={40} color="#fff" />
-                </View>
-                <View style={styles.ctaText}>
-                  <ThemedText style={styles.ctaTitle}>
-                    Try AI Recognition
-                  </ThemedText>
-                  <ThemedText style={styles.ctaSubtitle}>
-                    Write a stroke and let AI identify it instantly
-                  </ThemedText>
-                </View>
-                <IconSymbol name="chevron.right" size={24} color="#fff" />
-              </View>
-            </LinearGradient>
-          </Pressable>
-        </ThemedView>
-
         {/* Quick Stats */}
         <ThemedView style={styles.section}>
           <ThemedText type="subtitle" style={styles.sectionTitle}>
@@ -89,183 +214,6 @@ export default function HomeScreen() {
             Every lesson, stroke, and outline is extracted from official Pitman 
             Shorthand reference materials. Learn authentic, standard shorthand.
           </ThemedText>
-        </ThemedView>
-
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>
-            🎯 AI-Enhanced Learning Path
-          </ThemedText>
-          
-          <Pressable 
-            onPress={() => handleNavigation('/recognize')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['rgba(102, 126, 234, 0.2)', 'rgba(118, 75, 162, 0.2)'] : ['#667eea', '#764ba2']}
-              style={[styles.featureCard, styles.aiFeatureCard]}
-             
-            >
-              <View style={styles.featureItem}>
-                <LinearGradient
-                  colors={['#4facfe', '#00f2fe']}
-                  style={[styles.featureIcon, styles.aiFeatureIcon]}
-                 
-                >
-                  <IconSymbol name="sparkles" size={28} color="#fff" />
-                </LinearGradient>
-                <View style={styles.featureText}>
-                  <ThemedText type="defaultSemiBold" style={styles.aiFeatureTitle}>
-                    AI Recognition (Core)
-                  </ThemedText>
-                  <ThemedText style={styles.featureDescription}>
-                    Practice and get instant AI feedback on your strokes
-                  </ThemedText>
-                </View>
-                <IconSymbol name="chevron.right" size={20} color="#fff" />
-              </View>
-            </LinearGradient>
-          </Pressable>
-          
-          <Pressable 
-            onPress={() => handleNavigation('/strokes')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
-              style={styles.featureCard}
-             
-            >
-              <View style={styles.featureItem}>
-                <LinearGradient
-                  colors={['#667eea', '#764ba2']}
-                  style={styles.featureIcon}
-                 
-                >
-                  <IconSymbol name="pencil.line" size={24} color="#fff" />
-                </LinearGradient>
-                <View style={styles.featureText}>
-                  <ThemedText type="defaultSemiBold">Strokes</ThemedText>
-                  <ThemedText style={styles.featureDescription}>
-                    24 consonants, 12 vowels from reference book
-                  </ThemedText>
-                </View>
-              </View>
-            </LinearGradient>
-          </Pressable>
-
-          <Pressable 
-            onPress={() => handleNavigation('/shortforms')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
-              style={styles.featureCard}
-             
-            >
-              <View style={styles.featureItem}>
-                <LinearGradient
-                  colors={['#f093fb', '#f5576c']}
-                  style={styles.featureIcon}
-                 
-                >
-                  <IconSymbol name="text.badge.checkmark" size={24} color="#fff" />
-                </LinearGradient>
-                <View style={styles.featureText}>
-                  <ThemedText type="defaultSemiBold">Shortforms</ThemedText>
-                  <ThemedText style={styles.featureDescription}>
-                    Master abbreviated forms of common words
-                  </ThemedText>
-                </View>
-              </View>
-            </LinearGradient>
-          </Pressable>
-
-          <Pressable 
-            onPress={() => handleNavigation('/phrases')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
-              style={styles.featureCard}
-             
-            >
-              <View style={styles.featureItem}>
-                <LinearGradient
-                  colors={['#4facfe', '#00f2fe']}
-                  style={styles.featureIcon}
-                 
-                >
-                  <IconSymbol name="text.quote" size={24} color="#fff" />
-                </LinearGradient>
-                <View style={styles.featureText}>
-                  <ThemedText type="defaultSemiBold">Phrases</ThemedText>
-                  <ThemedText style={styles.featureDescription}>
-                    Practice frequently used phrase combinations
-                  </ThemedText>
-                </View>
-              </View>
-            </LinearGradient>
-          </Pressable>
-
-          <Pressable 
-            onPress={() => handleNavigation('/outlines')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
-              style={styles.featureCard}
-             
-            >
-              <View style={styles.featureItem}>
-                <LinearGradient
-                  colors={['#fa709a', '#fee140']}
-                  style={styles.featureIcon}
-                 
-                >
-                  <IconSymbol name="book.fill" size={24} color="#fff" />
-                </LinearGradient>
-                <View style={styles.featureText}>
-                  <ThemedText type="defaultSemiBold">Outlines</ThemedText>
-                  <ThemedText style={styles.featureDescription}>
-                    Study complete word representations
-                  </ThemedText>
-                </View>
-              </View>
-            </LinearGradient>
-          </Pressable>
-
-          <Pressable 
-            onPress={() => handleNavigation('/qa')}
-            
-            style={{ cursor: "pointer" }}
-          >
-            <LinearGradient
-              colors={colorScheme === 'dark' ? ['rgba(255, 255, 255, 0.08)', 'rgba(255, 255, 255, 0.03)'] : ['#ffffff', '#f8f9fa']}
-              style={styles.featureCard}
-             
-            >
-              <View style={styles.featureItem}>
-                <LinearGradient
-                  colors={['#30cfd0', '#330867']}
-                  style={styles.featureIcon}
-                 
-                >
-                  <IconSymbol name="questionmark.circle.fill" size={24} color="#fff" />
-                </LinearGradient>
-                <View style={styles.featureText}>
-                  <ThemedText type="defaultSemiBold">Q&A Guidelines</ThemedText>
-                  <ThemedText style={styles.featureDescription}>
-                    Get answers to common questions and tips
-                  </ThemedText>
-                </View>
-              </View>
-            </LinearGradient>
-          </Pressable>
         </ThemedView>
 
         <ThemedView style={styles.section}>
